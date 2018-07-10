@@ -1,3 +1,6 @@
+let startButton = document.querySelector('#start');
+let infoPanel = document.querySelector('#info');
+
 let boundingBox = {
   maxLon: -73.3654,
   minLon: -71.5489,
@@ -17,7 +20,7 @@ let pickPoint = () => {
   let lat = getRandomArbitrary(bb.minLat, bb.maxLat);
   let lon = getRandomArbitrary(bb.minLon, bb.maxLon);
 
-  return {lat,lon};
+  return { lat, lon };
 };
 
 let withinVermont = (point) => {
@@ -25,7 +28,7 @@ let withinVermont = (point) => {
 };
 
 let randomPointWithinVermont = () => {
-  let point = {lat: 0, lon: 0};
+  let point = { lat: 0, lon: 0 };
   let loop = 0;
 
   while (!withinVermont([point.lon, point.lat])) {
@@ -35,15 +38,29 @@ let randomPointWithinVermont = () => {
 };
 
 let startNewGame = () => {
+  setInfo({
+    latitude: '?',
+    longitude: '?',
+    county: '?',
+    town: '?',
+  })
   if (marker) {
     marker.remove();
   }
+  startButton.disabled = true;
   let point = randomPointWithinVermont();
   marker = L.marker([point.lat, point.lon]).addTo(mymap);
   mymap.setMaxZoom(16);
   mymap.setMinZoom(16);
   mymap.setView([point.lat, point.lon], 16);
 };
+
+let setInfo = (info) => {
+  document.getElementById('latitude').textContent = info.latitude;
+  document.getElementById('longitude').textContent = info.longitude;
+  document.getElementById('county').textContent = info.county;
+  document.getElementById('town').textContent = info.town;
+}
 
 let mymap = L.map('map').setView([43.5588, -72.5778], 7);
 
@@ -55,5 +72,4 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 let vermontBorder = L.geoJSON(border_data);
 vermontBorder.addTo(mymap);
 
-let newGame = document.querySelector('#new-game');
-newGame.addEventListener('click', startNewGame);
+startButton.addEventListener('click', startNewGame);

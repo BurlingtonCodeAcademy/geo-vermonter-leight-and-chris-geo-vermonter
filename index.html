@@ -1,41 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
-    <style>
-     #map {
-       height: 600px;
-       width: 600px;
-     }
 
-     .spacer {
-       height: 20px;
-     }
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
+  <style>
+    #map {
+      height: 600px;
+      width: 600px;
+    }
 
-     #container {
-       display: flex;
-       flex-direction: column;
-       justify-content: space-between;
-       align-items: center;
-     }
+    .spacer {
+      height: 20px;
+    }
 
-     #new-game {
-       color: blue;
-       font-size: 1.2em;
-       background-color: #f2f2f2;
-     }
-    </style>
-  </head>
-  <body>
-    <div id="container">
-      <div id="map"></div>
-      <div class="map spacer"></div>
-      <button id="new-game">Play New Game</button>
+    #container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #new-game {
+      color: blue;
+      font-size: 1.2em;
+      background-color: #f2f2f2;
+    }
+
+    #info {
+      background-color: #eaeaff;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="/">Geo Vermonter</a>
+  </nav>
+  <div id="container">
+    <div id="info">
+      <h2>Info</h2>
+        Latitude: <span id='latitude'></span> <br>
+        Longitude: <span id='longitude'></span> <br>
+        County: <span id='county'></span> <br>
+        Town: <span id='town'></span> <br>
     </div>
-    <script type="text/javascript" src="border.js"></script>
-    <script src="app.js"> </script>
-  </body>
+    <div id="map"></div>
+    <div class="map spacer"></div>
+    <button id="start">Start a Game</button>
+    <button id="guess">Guess the Spot</button>
+    <button id="quit">I Give Up!</button>
+  </div>
+  <script type="text/javascript" src="border.js"></script>
+  <script src="app.js"> </script>
+</body>
+
 </html>
