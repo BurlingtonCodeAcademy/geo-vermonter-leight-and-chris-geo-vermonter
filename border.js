@@ -1,15 +1,15 @@
-let border_data = {
-  "type": "Feature",
-  "properties": {
-    "name": "Vermont",
-    "name_alt": "VT",
-    "type": "State",
-    "latitude": 44.0886,
-    "longitude": -72.7317
+let borderData = {
+  type: "Feature",
+  properties: {
+    name: "Vermont",
+    name_alt: "VT",
+    type: "State",
+    latitude: 42.964,
+    longitude: -72.8898
   },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
+  geometry: {
+    type: "Polygon",
+    coordinates: [
       [
         [-73.35218221090553, 45.00541896831666],
         [-73.18201496808604, 45.00562770855899],
@@ -93,4 +93,4 @@ let border_data = {
       ]
     ]
   }
-}
+};

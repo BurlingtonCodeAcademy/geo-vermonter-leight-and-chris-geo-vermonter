@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+    crossorigin=""></script>
+  <title>GeoVermonter</title>
+</head>
+
+<body>
+  <div id="game-controls">
+    <button id="start" onclick="start()">Start</button>
+    <button id="guess">Guess</button>
+    <button id="quit">Quit</button>
+  </div>
+
+  <div id="info">
+    <span id="latitude">?</span>
+    <span id="longitude">?</span>
+    <span id="county">?</span>
+    <span id="town">?</span>
+  </div>
+
+  <div id="map"></div>
+
+  <div id="map-controls">
+    <div id="N">N</div>
+    <div id="S">S</div>
+    <div id="E">E</div>
+    <div id="W">W</div>
+  </div>
+  <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
+  <script src="border.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
