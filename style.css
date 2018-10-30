@@ -1,7 +1,24 @@
 #map-controls {
   display: grid;
-  grid-template-columns: repeat(3, 20px);
-  grid-template-rows: repeat(3, 20px);
+  grid-template-columns:30px 50px 30px;
+  grid-template-rows:30px 50px 30px; 
+  padding: 5px;
+  margin-left: 5px;
+  top: 600px;
+  z-index: 1;
+  text-align: center;
+  justify-items: center;
+  position: fixed;
+  font-size: 200px;
+  align-items: center;
+  
+}
+
+#map-controls button{
+text-align: center;
+height: 40px;
+width: 40px;
+font-size: 20px;
 }
 
 #N {
