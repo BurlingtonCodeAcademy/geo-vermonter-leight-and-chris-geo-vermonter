@@ -29,3 +29,18 @@
   width: 100%;
   position: fixed;
 }
+
+#info span {
+  border: 1px solid white;
+  padding: 5px;
+  margin: 5px;
+  z-index: 1;
+  display: block;
+}
+
+#info {
+  position: fixed;
+  z-index: 1;
+  top: 110px;
+  color: white;
+}

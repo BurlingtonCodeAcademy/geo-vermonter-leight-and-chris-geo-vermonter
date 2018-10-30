@@ -16,15 +16,16 @@
 <body>
   <div id="game-controls">
     <button id="start" onclick="start()">Start</button>
-    <button id="guess">Guess</button>
-    <button id="quit">Quit</button>
+    <button id="guess" disabled>Guess</button>
+    <button id="giveup" onclick="giveUp()" disabled>Give Up</button>
+    <button id="quit" disabled>Quit</button>
   </div>
 
   <div id="info">
-    <span id="latitude">?</span>
-    <span id="longitude">?</span>
-    <span id="county">?</span>
-    <span id="town">?</span>
+    <span id="latitude">Latitude: ?</span>
+    <span id="longitude">Longitude: ?</span>
+    <span id="county">County: ?</span>
+    <span id="town">Town: ?</span>
   </div>
 
   <div id="map"></div>
@@ -37,6 +38,7 @@
   </div>
   <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
   <script src="border.js"></script>
+  <script src="counties.js"></script>
   <script src="main.js"></script>
 </body>
 
