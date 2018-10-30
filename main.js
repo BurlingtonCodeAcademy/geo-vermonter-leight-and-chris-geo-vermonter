@@ -1,18 +1,36 @@
 let map;
 let county;
-let pointInfo;
+let point;
+let countiesVT;
 
 const start = () => {
   setButtons("start");
-  const { point } = generatePointVT();
+  map.removeLayer(countiesVT);
+  point = generatePointVT();
   const marker = L.marker(point);
   map.setZoomAround(point, 18);
+  map.flyTo(point, 18);
   marker.addTo(map).bindPopup("Guess my location!");
 };
 
-const giveUp = () => {
+const giveUp = async () => {
   setButtons("giveup");
-  document.querySelector("#latitude").textContent = pointInfo.point[0];
+  const address = await fetchLocation(point);
+  document.querySelector("#town").textContent =
+    address.city ||
+    address.town ||
+    address.village ||
+    address.hamlet ||
+    "Not Found";
+  document.querySelector("#county").textContent = address.county;
+  document.querySelector("#latitude").textContent = `Latitude: ${Math.round(
+    point[1] * 10000
+  ) / 10000}`;
+  document.querySelector("#longitude").textContent = `Longitude: ${Math.round(
+    point[0] * 10000
+  ) / 10000}`;
+  countiesVT.addTo(map);
+  map.flyTo([44, -72], 8);
 };
 
 const initializeMap = () => {
@@ -31,10 +49,10 @@ const initializeMap = () => {
       id: "mapbox.streets"
     }
   ).addTo(map);
+  countiesVT = L.geoJSON(countyData, { fillOpacity: 0 });
 };
 
 const generatePointVT = () => {
-  const countiesVT = L.geoJSON(countyData, { fillOpacity: 0 });
   const coordRange = {
     maxLat: 45.2,
     minLat: 42.5,
@@ -45,9 +63,7 @@ const generatePointVT = () => {
   while (!leafletPip.pointInLayer(point, countiesVT).length) {
     point = coordRand(coordRange);
   }
-  county = leafletPip.pointInLayer(point, countiesVT)[0].feature.properties
-    .NAME;
-  return (pointInfo = { point: point.reverse(), county });
+  return point.reverse();
 };
 
 const coordRand = coordRange => {
@@ -56,6 +72,36 @@ const coordRand = coordRange => {
   const lon =
     Math.random() * (coordRange.maxLon - coordRange.minLon) + coordRange.minLon;
   return [lon, lat];
+};
+
+const fetchLocation = async point => {
+  const [lon, lat] = point.reverse();
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/reverse.php?format=json&lat=${lat}&lon=${lon}`
+  );
+  const json = await response.json();
+  return json.address;
+};
+
+const moveView = direction => {
+  const newPoint = point;
+  switch (direction) {
+    case "North":
+      console.log(newPoint);
+      newPoint[1] + 0.003;
+      console.log(newPoint);
+      break;
+    case "South":
+      newPoint[1] - 0.003;
+      break;
+    case "East":
+      newPoint[0] + 0.003;
+      break;
+    case "West":
+      newPoint[0] - 0.003;
+      break;
+  }
+  map.panTo(newPoint);
 };
 
 const setButtons = clicked => {
