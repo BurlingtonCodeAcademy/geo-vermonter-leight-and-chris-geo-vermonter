@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+    crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
     crossorigin="" />
@@ -22,6 +24,7 @@
   </div>
 
   <div id="info">
+    <span id="score">Score: ?</span>
     <span id="latitude">Latitude: ?</span>
     <span id="longitude">Longitude: ?</span>
     <span id="county">County: ?</span>
@@ -31,10 +34,11 @@
   <div id="map"></div>
 
   <div id="map-controls">
-    <button id="N">N</button>
-    <button id="S">S</button>
-    <button id="E">E</button>
-    <button id="W">W</button>
+    <button id="N" onclick="moveView()">N</button>
+    <button id="S" onclick="moveView()">S</button>
+    <button id="E" onclick="moveView()">E</button>
+    <button id="W" onclick="moveView()">W</button>
+    <button id="home" onclick="moveView()"><i id="home" class="fas fa-home"></i></button>
   </div>
   <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
   <script src="border.js"></script>

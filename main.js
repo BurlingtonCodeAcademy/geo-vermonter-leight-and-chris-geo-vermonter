@@ -1,28 +1,27 @@
 let map;
-let county;
 let point;
 let countiesVT;
+let score;
 
 const start = () => {
   setButtons("start");
   map.removeLayer(countiesVT);
+  score = 100;
   point = generatePointVT();
   const marker = L.marker(point);
   map.setZoomAround(point, 18);
   map.flyTo(point, 18);
   marker.addTo(map).bindPopup("Guess my location!");
+  document.querySelector("#score").textContent = `Score: ${score}`;
+  map._handlers.forEach(handler => handler.disable());
 };
 
 const giveUp = async () => {
   setButtons("giveup");
-  const address = await fetchLocation(point);
+  const { county, city, town, village, hamlet } = await fetchLocation(point);
   document.querySelector("#town").textContent =
-    address.city ||
-    address.town ||
-    address.village ||
-    address.hamlet ||
-    "Not Found";
-  document.querySelector("#county").textContent = address.county;
+    city || town || village || hamlet || "Not Found";
+  document.querySelector("#county").textContent = county;
   document.querySelector("#latitude").textContent = `Latitude: ${Math.round(
     point[1] * 10000
   ) / 10000}`;
@@ -31,6 +30,7 @@ const giveUp = async () => {
   ) / 10000}`;
   countiesVT.addTo(map);
   map.flyTo([44, -72], 8);
+  map._handlers.forEach(handler => handler.enable());
 };
 
 const initializeMap = () => {
@@ -50,6 +50,7 @@ const initializeMap = () => {
     }
   ).addTo(map);
   countiesVT = L.geoJSON(countyData, { fillOpacity: 0 });
+  // L.polyline(<LatLng[]>
 };
 
 const generatePointVT = () => {
@@ -83,25 +84,29 @@ const fetchLocation = async point => {
   return json.address;
 };
 
-const moveView = direction => {
-  const newPoint = point;
+const moveView = () => {
+  const newPoint = Object.values(map.getCenter());
+  const direction = event.target.id;
   switch (direction) {
-    case "North":
-      console.log(newPoint);
-      newPoint[1] + 0.003;
-      console.log(newPoint);
+    case "N":
+      newPoint[0] += 0.003;
       break;
-    case "South":
-      newPoint[1] - 0.003;
+    case "S":
+      newPoint[0] -= 0.003;
       break;
-    case "East":
-      newPoint[0] + 0.003;
+    case "E":
+      newPoint[1] += 0.003;
       break;
-    case "West":
-      newPoint[0] - 0.003;
+    case "W":
+      newPoint[1] -= 0.003;
       break;
+    case "home":
+      map.panTo(point);
+      return;
   }
   map.panTo(newPoint);
+  score -= 1;
+  document.querySelector("#score").textContent = `Score: ${score}`;
 };
 
 const setButtons = clicked => {
@@ -115,6 +120,8 @@ const setButtons = clicked => {
     document.querySelector("#guess").setAttribute("disabled", true);
     document.querySelector("#quit").setAttribute("disabled", true);
     document.querySelector("#start").removeAttribute("disabled");
+  }
+
   }
 };
 

@@ -1,7 +1,7 @@
 #map-controls {
   display: grid;
-  grid-template-columns:30px 50px 30px;
-  grid-template-rows:30px 50px 30px; 
+  grid-template-columns: 30px 50px 30px;
+  grid-template-rows: 30px 50px 30px;
   padding: 5px;
   margin-left: 5px;
   top: 600px;
@@ -11,14 +11,13 @@
   position: fixed;
   font-size: 200px;
   align-items: center;
-  
 }
 
-#map-controls button{
-text-align: center;
-height: 40px;
-width: 40px;
-font-size: 20px;
+#map-controls button {
+  text-align: center;
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
 }
 
 #N {
@@ -38,6 +37,11 @@ font-size: 20px;
 
 #W {
   grid-column: 1;
+  grid-row: 2;
+}
+
+#home {
+  grid-column: 2;
   grid-row: 2;
 }
 
