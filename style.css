@@ -63,10 +63,11 @@
   position: fixed;
   z-index: 1;
   top: 110px;
-  color: white;}
+  color: white;
+}
 
-#selectcountyhidden{
-  margin-bottom:100%; 
+#counties {
+  margin-bottom: 100%;
   display: none;
   margin-left: 80%;
   align-items: flex-end;
@@ -75,21 +76,12 @@
   z-index: 1;
   border: black solid 1px;
   position: fixed;
+}
 
- }
-
-
-  
-
-.singlecounty{
+.county {
   width: 100%;
   border: black solid 1px;
   background: white;
   font-size: 30px;
-  text-align: center; 
+  text-align: center;
 }
-  
-
-
-
-

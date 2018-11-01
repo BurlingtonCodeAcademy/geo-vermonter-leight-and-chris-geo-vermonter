@@ -18,7 +18,7 @@
 <body>
   <div id="game-controls">
     <button id="start" onclick="start()">Start</button>
-    <button id="guess" disabled onclick ="guess()">Guess</button>
+    <button id="guess" disabled onclick="guess()">Guess</button>
     <button id="giveup" onclick="giveUp()" disabled>Give Up</button>
     <button id="quit" disabled>Quit</button>
   </div>
@@ -41,21 +41,21 @@
     <button id="home" onclick="moveView()"><i id="home" class="fas fa-home"></i></button>
   </div>
 
-  <div id="selectcountyhidden">
-    <div class="singlecounty">Orleans</div>
-    <div class="singlecounty">Lamoille</div>
-    <div class="singlecounty">Rutland</div>
-    <div class="singlecounty">Washington</div>
-    <div class="singlecounty">Windham</div>
-    <div class="singlecounty">Orange</div>
-    <div class="singlecounty">Windsor</div>
-    <div class="singlecounty">Addison</div>
-    <div class="singlecounty">Bennington</div>
-    <div class="singlecounty">Caledonia</div>
-    <div class="singlecounty">Chittenden</div>
-    <div class="singlecounty">Essex</div>
-    <div class="singlecounty">Franklin</div>
-    <div class="singlecounty">Grand Isle</div>
+  <div id="counties">
+    <div class="county" onclick="matchGuess(county)">Orleans</div>
+    <div class="county">Lamoille</div>
+    <div class="county">Rutland</div>
+    <div class="county">Washington</div>
+    <div class="county">Windham</div>
+    <div class="county">Orange</div>
+    <div class="county">Windsor</div>
+    <div class="county">Addison</div>
+    <div class="county">Bennington</div>
+    <div class="county">Caledonia</div>
+    <div class="county">Chittenden</div>
+    <div class="county">Essex</div>
+    <div class="county">Franklin</div>
+    <div class="county">Grand Isle</div>
   </div>
   <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
   <script src="border.js"></script>

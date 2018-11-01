@@ -2,8 +2,8 @@ let map;
 let point;
 let countiesVT;
 let score;
-let trail= [];
-let paths=[];
+let trail = [];
+let paths = [];
 
 const start = () => {
   setButtons("start");
@@ -33,10 +33,32 @@ const giveUp = async () => {
   map._handlers.forEach(handler => handler.enable());
 };
 
-const guess = () =>{
+const guess = async () => {
   setButtons("guess");
-  document.querySelector("#selectcountyhidden").style.display = "flex"
-}
+  const { county } = await fetchLocation(point);
+  console.log(county);
+  document.querySelector("#counties").style.display = "flex";
+  const counties = document.querySelectorAll(".county");
+  for (let guessedCounty of counties) {
+    guessedCounty.addEventListener("click", event => {
+      matchGuess(county);
+    });
+  }
+};
+
+// const handleGuess(event) {
+//   matchGuess(event.target)
+// }
+
+const matchGuess = county => {
+  console.log(county, `${event.target.textContent} County`);
+  if (`${event.target.textContent} County` === county) {
+    console.log("you win!");
+  } else {
+    console.log("you lose!");
+    score -= 10;
+  }
+};
 
 const initializeMap = () => {
   map = L.map("map").setView([44, -72], 8);
@@ -80,8 +102,27 @@ const coordRand = coordRange => {
   return [lon, lat];
 };
 
+class Point {
+  constructor(lat, lon) {
+    this.lat = lat;
+    this.lon = lon;
+  }
+
+  latLon() {
+    return [this.lat, this.lon];
+  }
+
+  lonLat() {
+    return [this.lon, this.lat];
+  }
+
+  clone() {
+    return new Point(this.lat, this.lon);
+  }
+}
+
 const fetchLocation = async point => {
-  const [lon, lat] = point.reverse();
+  const [lat, lon] = point;
   const response = await fetch(
     `https://nominatim.openstreetmap.org/reverse.php?format=json&lat=${lat}&lon=${lon}`
   );
@@ -91,8 +132,8 @@ const fetchLocation = async point => {
 
 const moveView = () => {
   const newPoint = Object.values(map.getCenter());
-  trail[0]=point;
-  trail.push(newPoint)
+  trail[0] = point;
+  trail.push(newPoint);
   const direction = event.target.id;
   switch (direction) {
     case "N":
@@ -109,22 +150,20 @@ const moveView = () => {
       break;
     case "home":
       map.panTo(point);
-      trail=[];
-      paths.forEach(path => map.removeLayer(path))
-      paths=[];
+      trail = [];
+      paths.forEach(path => map.removeLayer(path));
+      paths = [];
       return;
   }
   map.panTo(newPoint);
   score -= 1;
   document.querySelector("#score").textContent = `Score: ${score}`;
 
-
-  path = L.polyline(trail, { dashArray: "30 10 ", color: 'white',});
+  path = L.polyline(trail, { dashArray: "30 10 ", color: "white" });
   path.addTo(map);
   paths.push(path);
   console.log(paths);
 };
-
 
 const setButtons = clicked => {
   const [start, guess, giveup, quit] = Object.values(
@@ -136,23 +175,16 @@ const setButtons = clicked => {
     giveup.removeAttribute("disabled");
     quit.removeAttribute("disabled");
   } else if (clicked === "giveup") {
-    document.querySelector("#giveup").setAttribute("disabled", true);
-    document.querySelector("#guess").setAttribute("disabled", true);
-    document.querySelector("#quit").setAttribute("disabled", true);
-    document.querySelector("#start").removeAttribute("disabled");
-  } else if(clicked === "guess") {
-    document.querySelector("#guess").setAttribute("disabled", true);
-    document.querySelector("#start").removeAttribute("disabled"); 
-    document.querySelector("#giveup").removeAttribute("disabled");
-    document.querySelector("#quit").removeAttribute("disabled");  
-
-    start.removeAttribute("disabled");
-    guess.setAttribute("disabled", true);
     giveup.setAttribute("disabled", true);
+    guess.setAttribute("disabled", true);
     quit.setAttribute("disabled", true);
+    start.removeAttribute("disabled");
+  } else if (clicked === "guess") {
+    start.setAttribute("disabled", true);
+    guess.setAttribute("disabled", true);
+    giveup.removeAttribute("disabled");
+    quit.removeAttribute("disabled");
   }
-}
-
-;
+};
 
 initializeMap();
