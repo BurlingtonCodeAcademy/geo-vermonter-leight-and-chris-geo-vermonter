@@ -21,15 +21,13 @@ const start = () => {
 const giveUp = async () => {
   setButtons("giveup");
   const { county, city, town, village, hamlet } = await fetchLocation(point);
-  document.querySelector("#town").textContent =
-    city || town || village || hamlet || "Not Found";
-  document.querySelector("#county").textContent = county;
-  document.querySelector("#latitude").textContent = `Latitude: ${Math.round(
-    point[1] * 10000
-  ) / 10000}`;
-  document.querySelector("#longitude").textContent = `Longitude: ${Math.round(
-    point[0] * 10000
-  ) / 10000}`;
+  const [, latEl, lonEl, countyEl, townEl] = Object.values(
+    document.querySelector("#info").childNodes
+  ).filter(node => node.id);
+  townEl.textContent = city || town || village || hamlet || "Not Found";
+  countyEl.textContent = county;
+  latEl.textContent = `Latitude: ${Math.round(point[1] * 10000) / 10000}`;
+  lonEl.textContent = `Longitude: ${Math.round(point[0] * 10000) / 10000}`;
   countiesVT.addTo(map);
   map.flyTo([44, -72], 8);
   map._handlers.forEach(handler => handler.enable());
@@ -129,11 +127,14 @@ const moveView = () => {
 
 
 const setButtons = clicked => {
+  const [start, guess, giveup, quit] = Object.values(
+    document.querySelector("#game-controls").childNodes
+  ).filter(node => node.id);
   if (clicked === "start") {
-    document.querySelector("#start").setAttribute("disabled", true);
-    document.querySelector("#guess").removeAttribute("disabled");
-    document.querySelector("#giveup").removeAttribute("disabled");
-    document.querySelector("#quit").removeAttribute("disabled");
+    start.setAttribute("disabled", true);
+    guess.removeAttribute("disabled");
+    giveup.removeAttribute("disabled");
+    quit.removeAttribute("disabled");
   } else if (clicked === "giveup") {
     document.querySelector("#giveup").setAttribute("disabled", true);
     document.querySelector("#guess").setAttribute("disabled", true);
@@ -145,6 +146,10 @@ const setButtons = clicked => {
     document.querySelector("#giveup").removeAttribute("disabled");
     document.querySelector("#quit").removeAttribute("disabled");  
 
+    start.removeAttribute("disabled");
+    guess.setAttribute("disabled", true);
+    giveup.setAttribute("disabled", true);
+    quit.setAttribute("disabled", true);
   }
 }
 
