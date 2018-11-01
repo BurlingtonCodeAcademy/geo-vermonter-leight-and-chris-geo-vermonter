@@ -19,7 +19,7 @@ const start = () => {
 const giveUp = async () => {
   setButtons("giveup");
   const { county, city, town, village, hamlet } = await fetchLocation(point);
-  const [, latEL, latEL, countyEl, townEl] = Object.values(
+  const [, latEl, lonEl, countyEl, townEl] = Object.values(
     document.querySelector("#info").childNodes
   ).filter(node => node.id);
   townEl.textContent = city || town || village || hamlet || "Not Found";
