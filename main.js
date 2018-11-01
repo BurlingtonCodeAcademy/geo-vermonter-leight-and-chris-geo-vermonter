@@ -2,6 +2,8 @@ let map;
 let point;
 let countiesVT;
 let score;
+let trail= [];
+let paths=[];
 
 const start = () => {
   setButtons("start");
@@ -32,6 +34,11 @@ const giveUp = async () => {
   map.flyTo([44, -72], 8);
   map._handlers.forEach(handler => handler.enable());
 };
+
+const guess = () =>{
+  setButtons("guess");
+  document.querySelector("#selectcountyhidden").style.display = "flex"
+}
 
 const initializeMap = () => {
   map = L.map("map").setView([44, -72], 8);
@@ -86,6 +93,8 @@ const fetchLocation = async point => {
 
 const moveView = () => {
   const newPoint = Object.values(map.getCenter());
+  trail[0]=point;
+  trail.push(newPoint)
   const direction = event.target.id;
   switch (direction) {
     case "N":
@@ -102,12 +111,22 @@ const moveView = () => {
       break;
     case "home":
       map.panTo(point);
+      trail=[];
+      paths.forEach(path => map.removeLayer(path))
+      paths=[];
       return;
   }
   map.panTo(newPoint);
   score -= 1;
   document.querySelector("#score").textContent = `Score: ${score}`;
+
+
+  path = L.polyline(trail, { dashArray: "30 10 ", color: 'white',});
+  path.addTo(map);
+  paths.push(path);
+  console.log(paths);
 };
+
 
 const setButtons = clicked => {
   if (clicked === "start") {
@@ -120,9 +139,15 @@ const setButtons = clicked => {
     document.querySelector("#guess").setAttribute("disabled", true);
     document.querySelector("#quit").setAttribute("disabled", true);
     document.querySelector("#start").removeAttribute("disabled");
-  }
+  } else if(clicked === "guess") {
+    document.querySelector("#guess").setAttribute("disabled", true);
+    document.querySelector("#start").removeAttribute("disabled"); 
+    document.querySelector("#giveup").removeAttribute("disabled");
+    document.querySelector("#quit").removeAttribute("disabled");  
 
   }
-};
+}
+
+;
 
 initializeMap();

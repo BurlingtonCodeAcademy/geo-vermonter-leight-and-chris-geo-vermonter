@@ -18,7 +18,7 @@
 <body>
   <div id="game-controls">
     <button id="start" onclick="start()">Start</button>
-    <button id="guess" disabled>Guess</button>
+    <button id="guess" disabled onclick ="guess()">Guess</button>
     <button id="giveup" onclick="giveUp()" disabled>Give Up</button>
     <button id="quit" disabled>Quit</button>
   </div>
@@ -39,6 +39,23 @@
     <button id="E" onclick="moveView()">E</button>
     <button id="W" onclick="moveView()">W</button>
     <button id="home" onclick="moveView()"><i id="home" class="fas fa-home"></i></button>
+  </div>
+
+  <div id="selectcountyhidden">
+    <div class="singlecounty">Orleans</div>
+    <div class="singlecounty">Lamoille</div>
+    <div class="singlecounty">Rutland</div>
+    <div class="singlecounty">Washington</div>
+    <div class="singlecounty">Windham</div>
+    <div class="singlecounty">Orange</div>
+    <div class="singlecounty">Windsor</div>
+    <div class="singlecounty">Addison</div>
+    <div class="singlecounty">Bennington</div>
+    <div class="singlecounty">Caledonia</div>
+    <div class="singlecounty">Chittenden</div>
+    <div class="singlecounty">Essex</div>
+    <div class="singlecounty">Franklin</div>
+    <div class="singlecounty">Grand Isle</div>
   </div>
   <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
   <script src="border.js"></script>
