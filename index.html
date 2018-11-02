@@ -16,19 +16,22 @@
 </head>
 
 <body>
-  <div id="game-controls">
-    <button id="start" onclick="start()">Start</button>
-    <button id="guess" disabled onclick="guess()">Guess</button>
-    <button id="giveup" onclick="giveUp()" disabled>Give Up</button>
-    <button id="quit" disabled>Quit</button>
+  <div id="container">
+    <h1> GeoVermonter </h1>
+    <div id="game-controls">
+      <button id="start" onclick="start()">Start</button>
+      <button id="guess" disabled onclick="guess()">Guess</button>
+      <button id="giveup" onclick="giveUp()" disabled>Give Up</button>
+      <button id="quit" disabled onclick="quit()">Quit</button>
+    </div>
   </div>
 
   <div id="info">
-    <span id="score">Score: ?</span>
-    <span id="latitude">Latitude: ?</span>
-    <span id="longitude">Longitude: ?</span>
-    <span id="county">County: ?</span>
-    <span id="town">Town: ?</span>
+    <span id="score">score: ?</span>
+    <span id="latitude">latitude: ?</span>
+    <span id="longitude">longitude: ?</span>
+    <span id="county">county: ?</span>
+    <span id="town">town: ?</span>
   </div>
 
   <div id="map"></div>

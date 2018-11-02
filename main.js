@@ -1,20 +1,23 @@
 let map;
 let point;
 let countiesVT;
-let score;
+let score = 0;
 let trail = [];
 let paths = [];
 
 const start = () => {
   setButtons("start");
   map.removeLayer(countiesVT);
-  score = 100;
   point = generatePointVT();
   const marker = L.marker(point);
   map.setZoomAround(point, 18);
   map.flyTo(point, 18);
   marker.addTo(map).bindPopup("Guess my location!");
-  document.querySelector("#score").textContent = `Score: ${score}`;
+  Array.from(document.querySelector("#info").children).forEach(
+    el => (el.textContent = `${el.id}: ?`)
+  );
+  score += 100;
+  document.querySelector("#score").textContent = `score: ${score}`;
   map._handlers.forEach(handler => handler.disable());
 };
 
@@ -31,6 +34,8 @@ const giveUp = async () => {
   countiesVT.addTo(map);
   map.flyTo([44, -72], 8);
   map._handlers.forEach(handler => handler.enable());
+  score -= 100;
+  document.querySelector("#score").textContent = `score: ${score}`;
 };
 
 const guess = async () => {
@@ -41,27 +46,35 @@ const guess = async () => {
   const counties = document.querySelectorAll(".county");
   for (let guessedCounty of counties) {
     guessedCounty.addEventListener("click", event => {
-      matchGuess(county);
+      matchGuess(county, event);
     });
   }
 };
-
-// const handleGuess(event) {
-//   matchGuess(event.target)
-// }
+const quit = () => {
+  setButtons("quit");
+  map.flyTo([44, -72], 8);
+  countiesVT.addTo(map);
+  score -= 100;
+  document.querySelector("#score").textContent = `score: ${score}`;
+};
 
 const matchGuess = county => {
-  console.log(county, `${event.target.textContent} County`);
   if (`${event.target.textContent} County` === county) {
-    console.log("you win!");
+    map.flyTo([44, -72], 8);
+    alert(`You Win! You scored ${score} points!`);
+    document.querySelector("#score").textContent = `score: ${score}`;
+    setButtons("quit");
   } else {
-    console.log("you lose!");
+    alert("That is not correct, keep guessing!");
+    event.target.innerHTML = `<del>${event.target.textContent}</del>`;
     score -= 10;
+    document.querySelector("#score").textContent = `Score: ${score}`;
   }
 };
 
 const initializeMap = () => {
-  map = L.map("map").setView([44, -72], 8);
+  document.querySelector("#score").textContent = `score: 0`;
+  map = L.map("map", { zoomControl: false }).setView([44, -72], 8);
   L.geoJSON(borderData, { fillOpacity: 0 }).addTo(map);
   L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -77,7 +90,6 @@ const initializeMap = () => {
     }
   ).addTo(map);
   countiesVT = L.geoJSON(countyData, { fillOpacity: 0 });
-  // L.polyline(<LatLng[]>
 };
 
 const generatePointVT = () => {
@@ -101,25 +113,6 @@ const coordRand = coordRange => {
     Math.random() * (coordRange.maxLon - coordRange.minLon) + coordRange.minLon;
   return [lon, lat];
 };
-
-class Point {
-  constructor(lat, lon) {
-    this.lat = lat;
-    this.lon = lon;
-  }
-
-  latLon() {
-    return [this.lat, this.lon];
-  }
-
-  lonLat() {
-    return [this.lon, this.lat];
-  }
-
-  clone() {
-    return new Point(this.lat, this.lon);
-  }
-}
 
 const fetchLocation = async point => {
   const [lat, lon] = point;
@@ -157,12 +150,11 @@ const moveView = () => {
   }
   map.panTo(newPoint);
   score -= 1;
-  document.querySelector("#score").textContent = `Score: ${score}`;
+  document.querySelector("#score").textContent = `score: ${score}`;
 
   path = L.polyline(trail, { dashArray: "30 10 ", color: "white" });
   path.addTo(map);
   paths.push(path);
-  console.log(paths);
 };
 
 const setButtons = clicked => {
@@ -184,6 +176,11 @@ const setButtons = clicked => {
     guess.setAttribute("disabled", true);
     giveup.removeAttribute("disabled");
     quit.removeAttribute("disabled");
+  } else if (clicked === "quit") {
+    start.removeAttribute("disabled");
+    guess.setAttribute("disabled", true);
+    giveup.setAttribute("disabled", true);
+    quit.setAttribute("disabled", true);
   }
 };
 

@@ -1,3 +1,15 @@
+#container {
+  display: flex;
+  flex-direction: row;
+}
+
+h1 {
+  width: auto;
+  font-size: 20px;
+  margin: 0px;
+  padding-right: 10px;
+}
+
 #map-controls {
   display: grid;
   grid-template-columns: 30px 50px 30px;
